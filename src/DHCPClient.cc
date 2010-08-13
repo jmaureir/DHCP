@@ -116,7 +116,7 @@ void DHCPClient::changeFSMState(CLIENT_STATE new_state) {
      this->findHost()->bubble(banner.c_str());
 
      EV << "Configuring interface : " << this->ie->getName() << " ip:" << this->lease->ip << "/" << this->lease->netmask << " leased time: " << lease->lease_time << " (segs)" << endl;
-     std::cout << "host " << this->host_name << " got ip" << endl;
+     //std::cout << "host " << this->host_name << " got ip" << endl;
 
      if (!this->irt->findRoute(IPAddress(),IPAddress(),lease->gateway,0,(char*)(this->ie->getName()))) {
         // create gateway route
