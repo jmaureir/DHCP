@@ -36,7 +36,7 @@ void DHCPServer::initialize(int stage)
       if (this->ie!=NULL) {
          // bind the client to the udp port
          bindToPort(bootps_port);
-         ev << "DHCP Server bond to port " << bootps_port << " at " << ie <<  endl;
+         ev << "DHCP Server bond to port " << bootps_port << " at " << ie <<  std::endl;
       } else {
          error("Interface to listen does not exist. aborting");
          return;
@@ -58,7 +58,7 @@ void DHCPServer::handleIncommingPacket(cPacket *pkt) {
 	cMessage* proc_delay_timer = new cMessage("PROC_DELAY",PROC_DELAY);
 	proc_delay_timer->addPar("incomming_packet") = pkt;
 	scheduleAt(simTime()+this->proc_delay,proc_delay_timer);
-	//std::cout << "scheduling process" << endl;
+	//std::cout << "scheduling process" << std::endl;
 }
 
 void DHCPServer::handleTimer(cMessage *msg)  {
@@ -71,10 +71,10 @@ void DHCPServer::handleTimer(cMessage *msg)  {
 			this->processPacket(pkt);
 			return;
 		} else {
-			EV << "incomming packet null, discarding it" << endl;
+			EV << "incomming packet null, discarding it" << std::endl;
 		}
 	} else {
-		EV << "Unknown Timer, discarding it" << endl;
+		EV << "Unknown Timer, discarding it" << std::endl;
 	}
 	delete(msg);
 }
@@ -90,7 +90,7 @@ void DHCPServer::processPacket(cPacket *msg)
     if (packet->getOp() == BOOTREQUEST) {
 
       if (packet->getOptions().get(DHCP_MSG_TYPE) == DHCPDISCOVER) {
-        EV << "DHCPDISCOVER arrived. handling it." << endl;
+        EV << "DHCPDISCOVER arrived. handling it." << std::endl;
 
         DHCPLease* lease = this->getLeaseByMac(packet->getChaddr());
         if (lease==NULL) {
@@ -103,7 +103,7 @@ void DHCPServer::processPacket(cPacket *msg)
               lease->leased = true;
               this->sendOffer(lease);
            } else {
-              EV << "no lease available. Ignoring discover" << endl;
+              EV << "no lease available. Ignoring discover" << std::endl;
            }
         } else {
            // mac already exist. offering the same lease
@@ -114,13 +114,13 @@ void DHCPServer::processPacket(cPacket *msg)
         }
 
       } else if (packet->getOptions().get(DHCP_MSG_TYPE) == DHCPREQUEST) {
-        EV << "DHCPREQUEST arrived. handling it." << endl;
+        EV << "DHCPREQUEST arrived. handling it." << std::endl;
         // check if the request was in response of a offering
         if (packet->getOptions().get(SERVER_ID)==this->ie->ipv4Data()->getIPAddress().str()) {
            // the REQUEST is in response to an offering
            DHCPLease* lease = this->getLeaseByMac(packet->getChaddr());
            if (lease!=NULL) {
-              EV << "Requesting offered. From now " << lease->ip << " is leased to " << lease->mac << endl;
+              EV << "Requesting offered. From now " << lease->ip << " is leased to " << lease->mac << std::endl;
               lease->xid = packet->getXid();
               lease->lease_time = par("lease_time");
              // TODO: lease the ip
@@ -134,7 +134,7 @@ void DHCPServer::processPacket(cPacket *msg)
            // the request is to extend, renew or rebind a lease
            DHCPLease* lease = this->getLeaseByMac(packet->getChaddr());  // FIXME: we should find the lease by ip, not by mac
            if (lease!=NULL) {
-              EV << "Request for renewal/rebind. extending lease " << lease->ip << " to " << lease->mac << endl;
+              EV << "Request for renewal/rebind. extending lease " << lease->ip << " to " << lease->mac << std::endl;
               lease->xid = packet->getXid();
               lease->lease_time = par("lease_time");
               lease->leased = true;
@@ -144,22 +144,22 @@ void DHCPServer::processPacket(cPacket *msg)
            }
          }
       } else {
-        EV << "BOOTP arrived, but DHCP type unknown. dropping it" << endl;
+        EV << "BOOTP arrived, but DHCP type unknown. dropping it" << std::endl;
       }
     } else if (packet->getOp() == BOOTREPLY) {
-      EV << "a BOOTREPLY msg arrived. there is another DHCP server playing around?. dropping the packet" << endl;
+      EV << "a BOOTREPLY msg arrived. there is another DHCP server playing around?. dropping the packet" << std::endl;
     } else {
-      EV << "unknown message. dropping it" << endl;
+      EV << "unknown message. dropping it" << std::endl;
     }
 
-    EV << "deleting " << msg << endl;
+    EV << "deleting " << msg << std::endl;
     delete msg;
 
     numReceived++;
 }
 
 void DHCPServer::sendACK(DHCPLease* lease) {
-   EV << "Sending the ACK to " << lease->mac << endl;
+   EV << "Sending the ACK to " << lease->mac << std::endl;
 
    DHCPMessage* ack = new DHCPMessage("DHCPACK");
    ack->setOp(BOOTREPLY);
@@ -198,11 +198,12 @@ void DHCPServer::sendACK(DHCPLease* lease) {
 
    sendToUDP(ack,this->bootps_port,lease->ip.getBroadcastAddress(lease->netmask),this->bootpc_port);
 
+
 }
 
 void DHCPServer::sendOffer(DHCPLease* lease) {
 
-   EV << "Offering " << *lease << endl;
+   EV << "Offering " << *lease << std::endl;
 
    DHCPMessage* offer = new DHCPMessage("DHCPOFFER");
    offer->setOp(BOOTREPLY);
@@ -245,11 +246,11 @@ DHCPLease* DHCPServer::getLeaseByMac(MACAddress mac) {
    for(DHCPLeased::iterator it=this->leased.begin();it!=this->leased.end();it++) {
       // lease exist
       if (it->second.mac==mac) {
-         EV << "found lease for mac " << mac << endl;
+         EV << "found lease for mac " << mac << std::endl;
          return(&(it->second));
       }
    }
-   EV << "lease not found for mac " << mac << endl;
+   EV << "lease not found for mac " << mac << std::endl;
    // lease does not exist
    return(NULL);
 }

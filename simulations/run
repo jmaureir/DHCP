@@ -1,2 +1,4 @@
 #!/bin/sh
-../../../src/run_inet $*
+cd `dirname $0`
+../src/dhcp -n .:../src $*
+# for shared lib, use: opp_run -l ../src/dhcp -n .:../src $*

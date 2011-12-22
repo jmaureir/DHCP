@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for libDHCP
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep --make-so -O out -I../../inetmanet/src/networklayer/arp -I../../inetmanet/src/transport/sctp -I../../inetmanet/src/transport/contract -I../../inetmanet/src/world -I../../inetmanet/src/linklayer/mfcore -I../../inetmanet/src/applications/udpapp -I../../inetmanet/src/util -I../../inetmanet/src/networklayer/ted -I../../inetmanet/src/linklayer/ieee80211/mac -I../../inetmanet/src/networklayer/ipv6 -I../../inetmanet/src/networklayer/common -I../../inetmanet/src/applications/pingapp -I../../inetmanet/src/networklayer/ldp -I../../inetmanet/src/transport/tcp -I../../inetmanet/src/util/headerserializers -I../../inetmanet/src/networklayer/rsvp_te -I../../inetmanet/src/transport/udp -I../../inetmanet/src/networklayer/ipv4 -I../../inetmanet/src/networklayer/icmpv6 -I../../inetmanet/src/base -I../../inetmanet/src/networklayer/contract -I../../inetmanet/src/networklayer/manetrouting/base -I../../inetmanet/src/networklayer/mpls -I../../inetmanet/src/linklayer/contract -L../../inetmanet/out/$(CONFIGNAME)/src -linet -KINETMANET_PROJ=../../inetmanet
+#  opp_makemake -f --deep --make-so -O out -I../../inet/src/networklayer/ipv4 -I../../inet/src/networklayer/common -I../../inet/src/networklayer/rsvp_te -I../../inet/src/networklayer/icmpv6 -I../../inet/src/transport/tcp -I../../inet/src/networklayer/mpls -I../../inet/src/base -I../../inet/src/networklayer/ted -I../../inet/src/util/headerserializers -I../../inet/src/networklayer/contract -I../../inet/src/util -I../../inet/src/transport/contract -I../../inet/src/linklayer/mfcore -I../../inet/src/transport/sctp -I../../inet/src/networklayer/ipv6 -I../../inet/src/world -I../../inet/src/applications/pingapp -I../../inet/src/linklayer/contract -I../../inet/src/networklayer/arp -I../../inet/src/networklayer/ldp -I../../inet/src/transport/udp -I../../inet/src/applications/udpapp -L../../inet/out/$(CONFIGNAME)/src -linet -KINET_PROJ=../../inet
 #
 
 # Name of target to be created (-o option)
@@ -10,38 +10,36 @@ TARGET = libDHCP$(SHARED_LIB_SUFFIX)
 
 # C++ include paths (with -I)
 INCLUDE_PATH = \
-    -I../../inetmanet/src/networklayer/arp \
-    -I../../inetmanet/src/transport/sctp \
-    -I../../inetmanet/src/transport/contract \
-    -I../../inetmanet/src/world \
-    -I../../inetmanet/src/linklayer/mfcore \
-    -I../../inetmanet/src/applications/udpapp \
-    -I../../inetmanet/src/util \
-    -I../../inetmanet/src/networklayer/ted \
-    -I../../inetmanet/src/linklayer/ieee80211/mac \
-    -I../../inetmanet/src/networklayer/ipv6 \
-    -I../../inetmanet/src/networklayer/common \
-    -I../../inetmanet/src/applications/pingapp \
-    -I../../inetmanet/src/networklayer/ldp \
-    -I../../inetmanet/src/transport/tcp \
-    -I../../inetmanet/src/util/headerserializers \
-    -I../../inetmanet/src/networklayer/rsvp_te \
-    -I../../inetmanet/src/transport/udp \
-    -I../../inetmanet/src/networklayer/ipv4 \
-    -I../../inetmanet/src/networklayer/icmpv6 \
-    -I../../inetmanet/src/base \
-    -I../../inetmanet/src/networklayer/contract \
-    -I../../inetmanet/src/networklayer/manetrouting/base \
-    -I../../inetmanet/src/networklayer/mpls \
-    -I../../inetmanet/src/linklayer/contract \
+    -I../../inet/src/networklayer/ipv4 \
+    -I../../inet/src/networklayer/common \
+    -I../../inet/src/networklayer/rsvp_te \
+    -I../../inet/src/networklayer/icmpv6 \
+    -I../../inet/src/transport/tcp \
+    -I../../inet/src/networklayer/mpls \
+    -I../../inet/src/base \
+    -I../../inet/src/networklayer/ted \
+    -I../../inet/src/util/headerserializers \
+    -I../../inet/src/networklayer/contract \
+    -I../../inet/src/util \
+    -I../../inet/src/transport/contract \
+    -I../../inet/src/linklayer/mfcore \
+    -I../../inet/src/transport/sctp \
+    -I../../inet/src/networklayer/ipv6 \
+    -I../../inet/src/world \
+    -I../../inet/src/applications/pingapp \
+    -I../../inet/src/linklayer/contract \
+    -I../../inet/src/networklayer/arp \
+    -I../../inet/src/networklayer/ldp \
+    -I../../inet/src/transport/udp \
+    -I../../inet/src/applications/udpapp \
     -I.
 
 # Additional object and library files to link with
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS = -L../../inetmanet/out/$(CONFIGNAME)/src  -linet
-LIBS += -Wl,-rpath,`abspath ../../inetmanet/out/$(CONFIGNAME)/src`
+LIBS = -L../../inet/out/$(CONFIGNAME)/src  -linet
+LIBS += -Wl,-rpath,`abspath ../../inet/out/$(CONFIGNAME)/src`
 
 # Output directory
 PROJECT_OUTPUT_DIR = ../out
@@ -56,7 +54,7 @@ MSGFILES = \
     DHCP.msg
 
 # Other makefile variables (-K)
-INETMANET_PROJ=../../inetmanet
+INET_PROJ=../../inet
 
 #------------------------------------------------------------------------------
 
@@ -85,6 +83,16 @@ OMNETPP_LIBS = -L"$(OMNETPP_LIB_SUBDIR)" -L"$(OMNETPP_LIB_DIR)" -loppenvir$D $(K
 COPTS = $(CFLAGS)  $(INCLUDE_PATH) -I$(OMNETPP_INCL_DIR)
 MSGCOPTS = $(INCLUDE_PATH)
 
+# we want to recompile everything if COPTS changes,
+# so we store COPTS into $COPTS_FILE and have object
+# files depend on it (except when "make depend" was called)
+COPTS_FILE = $O/.last-copts
+ifneq ($(MAKECMDGOALS),depend)
+ifneq ("$(COPTS)","$(shell cat $(COPTS_FILE) 2>/dev/null || echo '')")
+$(shell $(MKPATH) "$O" && echo "$(COPTS)" >$(COPTS_FILE))
+endif
+endif
+
 #------------------------------------------------------------------------------
 # User-supplied makefile fragment(s)
 # >>>
@@ -106,7 +114,7 @@ $O/$(TARGET): $(OBJS)  $(wildcard $(EXTRA_OBJS)) Makefile
 
 .SUFFIXES: .cc
 
-$O/%.o: %.cc
+$O/%.o: %.cc $(COPTS_FILE)
 	@$(MKPATH) $(dir $@)
 	$(CXX) -c $(COPTS) -o $@ $<
 
@@ -127,80 +135,80 @@ depend:
 	$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
-$O/DHCPServer.o: DHCPServer.cc \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPv6Address.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPProtocolId_m.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPControlInfo_m.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IPv4InterfaceData.h \
-	$(INETMANET_PROJ)/src/base/NotificationBoard.h \
-	$(INETMANET_PROJ)/src/networklayer/common/InterfaceTable.h \
-	$(INETMANET_PROJ)/src/networklayer/common/InterfaceEntry.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPControlInfo.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IPRoute.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/RoutingTableAccess.h \
+$O/DHCPClient.o: DHCPClient.cc \
 	Byte.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IPDatagram.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPAddress.h \
-	$(INETMANET_PROJ)/src/base/INotifiable.h \
-	$(INETMANET_PROJ)/src/base/ModuleAccess.h \
-	$(INETMANET_PROJ)/src/networklayer/common/InterfaceTableAccess.h \
-	$(INETMANET_PROJ)/src/transport/contract/UDPControlInfo_m.h \
-	$(INETMANET_PROJ)/src/networklayer/common/InterfaceToken.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPvXAddress.h \
-	$(INETMANET_PROJ)/src/base/INETDefs.h \
-	$(INETMANET_PROJ)/src/networklayer/arp/ARP.h \
+	DHCPClient.h \
+	DHCPLease.h \
+	DHCPOptions.h \
+	DHCP_m.h \
+	$(INET_PROJ)/src/applications/udpapp/UDPAppBase.h \
+	$(INET_PROJ)/src/base/INETDefs.h \
+	$(INET_PROJ)/src/base/INotifiable.h \
+	$(INET_PROJ)/src/base/ModuleAccess.h \
+	$(INET_PROJ)/src/base/NotificationBoard.h \
+	$(INET_PROJ)/src/base/NotifierConsts.h \
+	$(INET_PROJ)/src/linklayer/contract/MACAddress.h \
+	$(INET_PROJ)/src/networklayer/arp/ARP.h \
+	$(INET_PROJ)/src/networklayer/arp/ARPPacket_m.h \
+	$(INET_PROJ)/src/networklayer/common/IInterfaceTable.h \
+	$(INET_PROJ)/src/networklayer/common/InterfaceEntry.h \
+	$(INET_PROJ)/src/networklayer/common/InterfaceTable.h \
+	$(INET_PROJ)/src/networklayer/common/InterfaceTableAccess.h \
+	$(INET_PROJ)/src/networklayer/common/InterfaceToken.h \
+	$(INET_PROJ)/src/networklayer/contract/IPAddress.h \
+	$(INET_PROJ)/src/networklayer/contract/IPAddressResolver.h \
+	$(INET_PROJ)/src/networklayer/contract/IPControlInfo.h \
+	$(INET_PROJ)/src/networklayer/contract/IPControlInfo_m.h \
+	$(INET_PROJ)/src/networklayer/contract/IPProtocolId_m.h \
+	$(INET_PROJ)/src/networklayer/contract/IPv6Address.h \
+	$(INET_PROJ)/src/networklayer/contract/IPvXAddress.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IPDatagram.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IPDatagram_m.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IPRoute.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IPv4InterfaceData.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IRoutingTable.h \
+	$(INET_PROJ)/src/networklayer/ipv4/RoutingTable.h \
+	$(INET_PROJ)/src/networklayer/ipv4/RoutingTableAccess.h \
+	$(INET_PROJ)/src/transport/contract/UDPControlInfo_m.h
+$O/DHCPServer.o: DHCPServer.cc \
+	Byte.h \
+	DHCPLease.h \
 	DHCPOptions.h \
 	DHCPServer.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IPDatagram_m.h \
-	$(INETMANET_PROJ)/src/applications/udpapp/UDPAppBase.h \
-	$(INETMANET_PROJ)/src/networklayer/common/IInterfaceTable.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IRoutingTable.h \
 	DHCP_m.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPAddressResolver.h \
-	$(INETMANET_PROJ)/src/base/NotifierConsts.h \
-	$(INETMANET_PROJ)/src/networklayer/arp/ARPPacket_m.h \
-	$(INETMANET_PROJ)/src/linklayer/contract/MACAddress.h \
-	DHCPLease.h
+	$(INET_PROJ)/src/applications/udpapp/UDPAppBase.h \
+	$(INET_PROJ)/src/base/INETDefs.h \
+	$(INET_PROJ)/src/base/INotifiable.h \
+	$(INET_PROJ)/src/base/ModuleAccess.h \
+	$(INET_PROJ)/src/base/NotificationBoard.h \
+	$(INET_PROJ)/src/base/NotifierConsts.h \
+	$(INET_PROJ)/src/linklayer/contract/MACAddress.h \
+	$(INET_PROJ)/src/networklayer/arp/ARP.h \
+	$(INET_PROJ)/src/networklayer/arp/ARPPacket_m.h \
+	$(INET_PROJ)/src/networklayer/common/IInterfaceTable.h \
+	$(INET_PROJ)/src/networklayer/common/InterfaceEntry.h \
+	$(INET_PROJ)/src/networklayer/common/InterfaceTable.h \
+	$(INET_PROJ)/src/networklayer/common/InterfaceTableAccess.h \
+	$(INET_PROJ)/src/networklayer/common/InterfaceToken.h \
+	$(INET_PROJ)/src/networklayer/contract/IPAddress.h \
+	$(INET_PROJ)/src/networklayer/contract/IPAddressResolver.h \
+	$(INET_PROJ)/src/networklayer/contract/IPControlInfo.h \
+	$(INET_PROJ)/src/networklayer/contract/IPControlInfo_m.h \
+	$(INET_PROJ)/src/networklayer/contract/IPProtocolId_m.h \
+	$(INET_PROJ)/src/networklayer/contract/IPv6Address.h \
+	$(INET_PROJ)/src/networklayer/contract/IPvXAddress.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IPDatagram.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IPDatagram_m.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IPRoute.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IPv4InterfaceData.h \
+	$(INET_PROJ)/src/networklayer/ipv4/IRoutingTable.h \
+	$(INET_PROJ)/src/networklayer/ipv4/RoutingTableAccess.h \
+	$(INET_PROJ)/src/transport/contract/UDPControlInfo_m.h
 $O/DHCP_m.o: DHCP_m.cc \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPAddress.h \
-	$(INETMANET_PROJ)/src/base/INETDefs.h \
 	Byte.h \
-	DHCP_m.h \
-	$(INETMANET_PROJ)/src/linklayer/contract/MACAddress.h \
-	DHCPOptions.h
-$O/DHCPClient.o: DHCPClient.cc \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPv6Address.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPControlInfo_m.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPProtocolId_m.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IPv4InterfaceData.h \
-	$(INETMANET_PROJ)/src/base/NotificationBoard.h \
-	$(INETMANET_PROJ)/src/networklayer/common/InterfaceTable.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/RoutingTable.h \
-	$(INETMANET_PROJ)/src/networklayer/common/InterfaceEntry.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPControlInfo.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IPRoute.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/RoutingTableAccess.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IPDatagram.h \
-	Byte.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPAddress.h \
-	$(INETMANET_PROJ)/src/base/INotifiable.h \
-	$(INETMANET_PROJ)/src/base/ModuleAccess.h \
-	$(INETMANET_PROJ)/src/networklayer/common/InterfaceTableAccess.h \
-	$(INETMANET_PROJ)/src/transport/contract/UDPControlInfo_m.h \
-	$(INETMANET_PROJ)/src/networklayer/common/InterfaceToken.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPvXAddress.h \
-	$(INETMANET_PROJ)/src/base/INETDefs.h \
-	$(INETMANET_PROJ)/src/networklayer/arp/ARP.h \
 	DHCPOptions.h \
-	DHCPClient.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IPDatagram_m.h \
-	$(INETMANET_PROJ)/src/applications/udpapp/UDPAppBase.h \
-	$(INETMANET_PROJ)/src/networklayer/common/IInterfaceTable.h \
 	DHCP_m.h \
-	$(INETMANET_PROJ)/src/networklayer/ipv4/IRoutingTable.h \
-	$(INETMANET_PROJ)/src/networklayer/contract/IPAddressResolver.h \
-	$(INETMANET_PROJ)/src/base/NotifierConsts.h \
-	$(INETMANET_PROJ)/src/networklayer/arp/ARPPacket_m.h \
-	$(INETMANET_PROJ)/src/linklayer/contract/MACAddress.h \
-	DHCPLease.h
+	$(INET_PROJ)/src/base/INETDefs.h \
+	$(INET_PROJ)/src/linklayer/contract/MACAddress.h \
+	$(INET_PROJ)/src/networklayer/contract/IPAddress.h
 
