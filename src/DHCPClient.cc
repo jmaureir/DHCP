@@ -156,6 +156,7 @@ void DHCPClient::changeFSMState(CLIENT_STATE new_state) {
 void DHCPClient::handleMessage(cMessage *msg) {
    if (msg->isSelfMessage()) {
       this->handleTimer(msg);
+      delete(msg);
    } else if (msg->arrivedOn("udpIn")) {
       // check if the message is DHCPMessage
       if (dynamic_cast<DHCPMessage*>(msg)) {
