@@ -73,11 +73,17 @@ void DHCPClient::initialize(int stage) {
 
     // check if there is some starting time and schedule a self msg to start the request
     double starting_time = par("startingTime");
+    this->starting_timer = NULL;
     if (starting_time > 0) {
     	// schedule a self msg to start the request protocol.
     	ev << "Scheduling manual starting at " << starting_time << endl;
-    	scheduleAt(starting_time,new cMessage("DHCPClient Start",MANUAL_STARTING));
+    	this->starting_timer = new cMessage("DHCPClient Start",MANUAL_STARTING);
+    	scheduleAt(starting_time,this->starting_timer);
     }
+}
+
+void DHCPClient::finish() {
+    this->cancelTimer(this->starting_timer);
 }
 
 void DHCPClient::changeFSMState(CLIENT_STATE new_state) {
@@ -156,7 +162,6 @@ void DHCPClient::changeFSMState(CLIENT_STATE new_state) {
 void DHCPClient::handleMessage(cMessage *msg) {
    if (msg->isSelfMessage()) {
       this->handleTimer(msg);
-      delete(msg);
    } else if (msg->arrivedOn("udpIn")) {
       // check if the message is DHCPMessage
       if (dynamic_cast<DHCPMessage*>(msg)) {
@@ -214,7 +219,10 @@ void DHCPClient::handleTimer(cMessage* msg) {
 
    if (category == MANUAL_STARTING && this->client_state == IDLE) {
 	   ev << "starting the dhcp request sequence manually" << endl;
+	   delete(msg);
+	   this->starting_timer = NULL;
 	   this->changeFSMState(INIT);
+
    }
 
 }

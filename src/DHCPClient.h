@@ -23,6 +23,7 @@ class INET_API DHCPClient : public UDPAppBase, public INotifiable
     int bootps_port;  // server
     int bootpc_port;  // client
 
+    cMessage* starting_timer;
     cMessage* timer_t1;
     cMessage* timer_t2;
     cMessage* timer_to; // response timeout
@@ -55,6 +56,7 @@ class INET_API DHCPClient : public UDPAppBase, public INotifiable
     // simulation method
     virtual int numInitStages() const {return 4;}
     virtual void initialize(int stage);
+    virtual void finish();
     virtual void handleMessage(cMessage *msg);
     virtual void handleTimer(cMessage *msg);
     virtual void handleDHCPMessage(DHCPMessage* msg);
