@@ -13,21 +13,25 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-import inet.world.ChannelControl;
+import inet.world.radio.ChannelControl;
 import inet.nodes.inet.Router;
 import inet.nodes.inet.StandardHost;
-import inet.nodes.wireless.WirelessAPWithEth;
-import inet.nodes.wireless.WirelessHost;
+import inet.nodes.wireless.AccessPoint;
+import inet.nodes.inet.WirelessHost;
 
-import DHCP.DHCPClient;
-import inet.nodes.wireless.WirelessRouter;
+import inet.nodes.ethernet.Eth100M;
+import inet.networklayer.autorouting.ipv4.IPv4NetworkConfigurator;
+
+import DHCPClient;
+import inet.nodes.inet.Router;
 //
 // TODO auto-generated module
 //
-network DHCP_Scenario_1
+network DHCP_Test_1
 {
     @display("bgb=590,407;bgl=2");
     int numWirelessHosts;
+
     submodules:
         channelControl: ChannelControl {
             @display("p=64,34");
@@ -43,19 +47,29 @@ network DHCP_Scenario_1
             routingFile = "host.rt";
         }
         wirelessHost[numWirelessHosts]: WirelessHost {
-            //@display("p=135,333");
             numUdpApps = 1;
-            udpAppType = "DHCP.DHCPClient";
+            numPingApps = 1;
+            udpApp[0].typename = "DHCPClient";
             @display("p=345,259");
         }
-        wirelessRouter: WirelessRouter {
+        wirelessRouter: WirelessHost {
             @display("p=154,207");
             routingFile = "wirelessRouter.rt";
             numUdpApps = 1;
-            udpAppType = "DHCP.DHCPServer";
-            mgmtType = default("Ieee80211MgmtAP");
+            udpApp[0].typename = "DHCPServer";
+            IPForward = true;
+            networkLayer.proxyARP = true;
+            wlan[0].mgmtType = default("Ieee80211MgmtAP");
+            wlan[0].mgmt.encapDecap = "true";
+        }
+        configurator: IPv4NetworkConfigurator {
+            @display("p=71,374");
+            config = xml("<config></config>\n");
+            addStaticRoutes = false;
+            addDefaultRoutes = false;
+            addSubnetRoutes = false;
         }
     connections:
-        standardHost.ethg++ <--> router.ethg++;
-        wirelessRouter.ethg++ <--> router.ethg++;
+        standardHost.ethg++ <--> Eth100M <--> router.ethg++;
+        wirelessRouter.ethg++ <--> Eth100M <--> router.ethg++;
 }
