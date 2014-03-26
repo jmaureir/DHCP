@@ -1,3 +1,3 @@
-package DHCP;
+package dhcp;
 
 @license(LGPL);

@@ -22,12 +22,12 @@ import inet.nodes.inet.WirelessHost;
 import inet.nodes.ethernet.Eth100M;
 import inet.networklayer.autorouting.ipv4.IPv4NetworkConfigurator;
 
-import DHCPClient;
+import dhcp.DHCPClient;
 import inet.nodes.inet.Router;
 //
 // TODO auto-generated module
 //
-network DHCP_Test_1
+network DHCP_Scenario_1
 {
     @display("bgb=590,407;bgl=2");
     int numWirelessHosts;
